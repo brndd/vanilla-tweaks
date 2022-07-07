@@ -131,7 +131,7 @@ Usage: {cmd} path/to/WoW.exe");
             println!("File writing failed: {err}");
             return ExitCode::from(1);
         },
-        Ok(_) => println!("Wrote file  {}", outfile_path.to_string_lossy())
+        Ok(_) => println!("Wrote file {}", outfile_path.to_string_lossy())
     };
 
     return ExitCode::from(0);
