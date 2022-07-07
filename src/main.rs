@@ -102,7 +102,7 @@ Usage: {cmd} path/to/WoW.exe");
     // Widescreen FoV patch
     let widescreen_fov_find: Vec::<u8> = vec![0xDB, 0x0F, 0xC9, 0x3F, 0xE6, 0xF1, 0x47, 0x40, 0x00, 0x00];
     let widescreen_fov_repl: Vec::<u8> = vec![0x66, 0x66, 0xF6, 0x3F, 0xE6, 0xF1, 0x47, 0x40, 0x00, 0x00];
-    print!("Applying patch: sound in background...");
+    print!("Applying patch: widescreen FoV fix...");
     match replace(&mut file, widescreen_fov_find, widescreen_fov_repl) {
         true => println!(" Success!"),
         false => {
