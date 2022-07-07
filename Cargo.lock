@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "turtle-fixes"
+name = "vanilla-fixes"
 version = "0.1.0"
