@@ -1,7 +1,6 @@
-# turtle-fixes
+# vanilla-fixes
 
-These are some custom patches for the old World of Warcraft client used by Turtle WoW.
-These almost certainly work on the regular 1.12.1 client too, but that is untested.
+These are some custom patches for the old 1.12.1 World of Warcraft client, which lacks many of the conveniences of more modern clients.
 
 Current patches:
 - Widescreen FoV fix
