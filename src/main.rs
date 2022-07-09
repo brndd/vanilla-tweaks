@@ -104,7 +104,7 @@ Usage: {cmd} path/to/WoW.exe");
     let farclip_newvalue = 10000.0f32;
     let farclip_bytes = farclip_newvalue.to_le_bytes();
     print!("Applying patch: increased farclip max value...");
-    file[farclip_offset..farclip_offset+4].copy_from_slice(&farclip_bytes);
+    file[farclip_offset..farclip_offset+farclip_bytes.len()].copy_from_slice(&farclip_bytes);
     println!(" Success!");
 
     // Widescreen FoV patch
@@ -112,7 +112,17 @@ Usage: {cmd} path/to/WoW.exe");
     let fov_newvalue = 1.925f32;
     let fov_bytes = fov_newvalue.to_le_bytes();
     print!("Applying patch: widescreen FoV fix...");
-    file[fov_offset..fov_offset+4].copy_from_slice(&fov_bytes);
+    file[fov_offset..fov_offset+fov_bytes.len()].copy_from_slice(&fov_bytes);
+    println!(" Success!");
+
+    // Frilldistance patch
+    let frilldistance_offset = 0x467958;
+    let frilldistance_newvalue = 300f32;
+    let frilldistance_bytes = frilldistance_newvalue.to_le_bytes();
+    print!("Applying patch: frilldistance (grass distance) increase...");
+    file[frilldistance_offset..frilldistance_offset+frilldistance_bytes.len()].copy_from_slice(&frilldistance_bytes);
+    println!(" Success!");
+
 
     // Sound in background patch
     let sound_in_background_find: Vec::<u8> = vec![0x85, 0xc9, 0x74, 0x2d, 0x8b, 0x01, 0x85, 0xc0, 0x74, 0x14, 0x6a, 0x00, 0x6a, 0xfd, 0xa3, 0xb0, 0x55, 0xcf, 0x00, 0xe8, 0xc0, 0x92, 0x05, 0x00, 0xb8, 0x01, 0x00, 0x00, 0x00, 0xc3, 0x6a, 0x01, 0x6a, 0xfd, 0xc7, 0x05, 0xb0, 0x55, 0xcf, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe8, 0xa7, 0x92, 0x05, 0x00, 0xb8, 0x01, 0x00, 0x00, 0x00, 0xc3];
