@@ -1,3 +1,5 @@
+![Build and tests](https://github.com/brndd/vanilla-fixes/actions/workflows/rust.yml/badge.svg)
+
 # vanilla-fixes
 
 These are some custom patches for the old 1.12.1 World of Warcraft client, which lacks many of the conveniences of more modern clients.
