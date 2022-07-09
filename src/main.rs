@@ -1,4 +1,4 @@
-//Patches the 1.12 WoW client for a wider FoV and sound in background.
+//Patches some QoL stuff into the old 1.12.1 WoW client.
 
 //Files can be verified after patching with:
 //cmp -l WoW_patched.exe WoW.exe | gawk '{printf "%08X %02X %02X\n", $1, strtonum(0$2), strtonum(0$3)}'
@@ -53,15 +53,19 @@ fn main() -> ExitCode {
         let cmd;
         match args.len() {
             0 => {
-                cmd = "turtle-fixes.exe";
+                cmd = "vanilla-tweaks.exe";
             }
             _ => {
                 cmd = &args[0];
             }
         }
         println!("This program attempts to apply the following patches:
+- Farclip patch
 - Widescreen FoV patch
+- Frilldistance increase patch
 - Sound in background patch
+- Quickloot by default patch (hold shift for manual loot)
+
 
 Usage: {cmd} path/to/WoW.exe");
         return ExitCode::from(1);
