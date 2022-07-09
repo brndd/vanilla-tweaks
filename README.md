@@ -6,7 +6,7 @@ Current patches:
 - Widescreen FoV fix
 - Sound in background
 - Farclip (max render distance) increase
-  - Farclip is changed with `/console farclip 1000`
+  - Farclip is changed with `/console farclip 1000` (777 is the default maximum)
   - This patch allows up to 10000, but this may cause crashes. Patching the client to be large address aware may help with crashing.
 - Frilldistance (max grass render distance) increase
   - You may want to customize the value used here if you use a very high frilldensity in order to maintain performance. The default (300) works fine on my machine with a relatively low frilldensity (64), but causes FPS to drop below 144 with high frilldensity.
