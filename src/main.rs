@@ -5,7 +5,6 @@
 
 use std::fs;
 use std::env;
-use std::vec;
 use std::process::ExitCode;
 use std::path::Path;
 use std::ffi::OsString;
