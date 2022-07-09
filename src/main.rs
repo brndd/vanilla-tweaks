@@ -99,17 +99,20 @@ Usage: {cmd} path/to/WoW.exe");
      * PATCHES PATCHES PATCHES PATCHES
      */
 
+    // Farclip patch
+    let farclip_offset = 0x40FED8;
+    let farclip_newvalue = 10000.0f32;
+    let farclip_bytes = farclip_newvalue.to_le_bytes();
+    print!("Applying patch: increased farclip max value...");
+    file[farclip_offset..farclip_offset+4].copy_from_slice(&farclip_bytes);
+    println!(" Success!");
+
     // Widescreen FoV patch
-    let widescreen_fov_find: Vec::<u8> = vec![0xDB, 0x0F, 0xC9, 0x3F, 0xE6, 0xF1, 0x47, 0x40, 0x00, 0x00];
-    let widescreen_fov_repl: Vec::<u8> = vec![0x66, 0x66, 0xF6, 0x3F, 0xE6, 0xF1, 0x47, 0x40, 0x00, 0x00];
+    let fov_offset = 0x4089B4;
+    let fov_newvalue = 1.925f32;
+    let fov_bytes = fov_newvalue.to_le_bytes();
     print!("Applying patch: widescreen FoV fix...");
-    match replace(&mut file, &widescreen_fov_find, &widescreen_fov_repl) {
-        true => println!(" Success!"),
-        false => {
-            println!(" FAILED!");
-            return ExitCode::from(1);
-        }
-    }
+    file[fov_offset..fov_offset+4].copy_from_slice(&fov_bytes);
 
     // Sound in background patch
     let sound_in_background_find: Vec::<u8> = vec![0x85, 0xc9, 0x74, 0x2d, 0x8b, 0x01, 0x85, 0xc0, 0x74, 0x14, 0x6a, 0x00, 0x6a, 0xfd, 0xa3, 0xb0, 0x55, 0xcf, 0x00, 0xe8, 0xc0, 0x92, 0x05, 0x00, 0xb8, 0x01, 0x00, 0x00, 0x00, 0xc3, 0x6a, 0x01, 0x6a, 0xfd, 0xc7, 0x05, 0xb0, 0x55, 0xcf, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe8, 0xa7, 0x92, 0x05, 0x00, 0xb8, 0x01, 0x00, 0x00, 0x00, 0xc3];
