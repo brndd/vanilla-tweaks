@@ -20,7 +20,8 @@ The following patches are currently available and are all applied by default:
 - Sound in background patch
 - Farclip (terrain render distance) maximum value change
 - Frilldistance (grass render distance) change
-- Quickloot by default patch (hold shift for manual loot)")]
+- Quickloot by default patch (hold shift for manual loot)
+- Nameplate range change")]
 struct Args {
     /// Path to WoW.exe.
     #[clap(value_parser)]
@@ -42,6 +43,10 @@ struct Args {
     #[clap(long, default_value_t = 300f32, value_parser)]
     frilldistance: f32,
 
+    /// Nameplate distance in yards. Default game value is 20.
+    #[clap(long, default_value_t = 41f32, value_parser)]
+    nameplatedistance: f32,
+
     /// If set, do not patch FoV.
     #[clap(long, default_value_t = false, value_parser)]
     no_fov: bool,
@@ -60,7 +65,11 @@ struct Args {
 
     /// If set, do not patch quickloot.
     #[clap(long, default_value_t = false, value_parser)]
-    no_quickloot: bool
+    no_quickloot: bool,
+
+    /// If set, do not patch nameplate distance.
+    #[clap(long, default_value_t = false, value_parser)]
+    no_nameplatedistance: bool
 
 }
 
@@ -140,7 +149,6 @@ fn main() -> ExitCode {
         println!(" Success!");
     }
 
-
     // Sound in background patch
     if !args.no_sound_in_background {
         const SOUND_IN_BACKGROUND_OFFSET: usize = 0x3A4869;
@@ -181,6 +189,15 @@ fn main() -> ExitCode {
         //         return ExitCode::from(1);
         //     }
         // }
+    }
+
+    // Nameplate range change patch
+    if !args.no_nameplatedistance {
+        const NAMEPLATE_OFFSET: usize = 0x40c448;
+        let nameplate_bytes: [u8; 4] = args.nameplatedistance.to_le_bytes();
+        print!("Applying patch: nameplate range...");
+        file[NAMEPLATE_OFFSET..NAMEPLATE_OFFSET+nameplate_bytes.len()].copy_from_slice(&nameplate_bytes);
+        println!(" Success!");
     }
 
     //Write out patched file
