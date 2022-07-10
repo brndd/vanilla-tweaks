@@ -15,7 +15,8 @@ These are some custom patches for the old 1.12.1 World of Warcraft client, which
   - You may want to customize the value used here if you use a very high frilldensity in order to maintain performance. The default (300) works fine on my machine with a relatively low frilldensity (64), but causes FPS to drop below 144 with high frilldensity.
   - Frill density (grass density) is changed with `/console frilldensity 100`. 256 is the max value (unchanged by patcher as it is already very dense).
 - Quickloot reverse patch (hold shift to manual loot)
-- Nameplate range change. Increased to 41 yards to match the maximum value in Classic and TBC Classic. 20 yards is the default value.
+- Nameplate range change.
+  - Increased to 41 yards to match the maximum value in Classic and TBC Classic. 20 yards is the default value.
 
 ## Usage
 
