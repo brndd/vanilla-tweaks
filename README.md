@@ -20,6 +20,6 @@ These are some custom patches for the old 1.12.1 World of Warcraft client, which
 
 ## Usage
 
-Pass the path to WoW.exe as a parameter. The patcher creates WoW_patched.exe next to the original binary. Run the game from that exe (or replace the original exe with it, I don't care).
+Pass the path to WoW.exe as a parameter (most easily done by dragging WoW.exe on top of the patcher in Windows Explorer). The patcher creates WoW_patched.exe next to the original binary. Run the game from that exe (or replace the original exe with it, I don't care).
 
 There are command-line options available to customize the values of and disable any tweaks you don't want. Run the program with the `--help` parameter to get a list of them.
