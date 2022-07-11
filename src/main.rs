@@ -6,6 +6,7 @@
 use std::fs;
 use std::process::ExitCode;
 use std::ffi::OsString;
+use std::ffi::CString;
 use clap::Parser;
 
 // Command line arguments
@@ -18,6 +19,7 @@ use clap::Parser;
 The following patches are currently available and are all applied by default:
 - Widescreen FoV fix
 - Sound in background patch
+- Sound channel count increase
 - Farclip (terrain render distance) maximum value change
 - Frilldistance (grass render distance) change
 - Quickloot by default patch (hold shift for manual loot)
@@ -47,6 +49,12 @@ struct Args {
     #[clap(long, default_value_t = 41f32, value_parser)]
     nameplatedistance: f32,
 
+    /// Default sound channel count. This can also be set with /console SoundSoftwareChannels 128, but is included here so that the changes persist if Config.wtf is deleted.
+    /// Default game value is 12. Default value in TBC is 32(?). Default value in modern client is 64. 999 is the maximum value settable here.
+    /// If you experience problems with performance, try changing this to 64.
+    #[clap(long, default_value_t = 128i32, value_parser = clap::value_parser!(i32).range(1..999))]
+    soundchannels: i32,
+
     /// If set, do not patch FoV.
     #[clap(long, default_value_t = false, value_parser)]
     no_fov: bool,
@@ -69,8 +77,16 @@ struct Args {
 
     /// If set, do not patch nameplate distance.
     #[clap(long, default_value_t = false, value_parser)]
-    no_nameplatedistance: bool
+    no_nameplatedistance: bool,
 
+    /// If set, do not patch the number of sound channels.
+    #[clap(long, default_value_t = false, value_parser)]
+    no_soundchannels: bool,
+
+    /// If set, do not patch the executable to be Large Address Aware.
+    /// You may want to enable this if playing on incredibly low-end hardware with less than 3 GiB RAM.
+    #[clap(long, default_value_t = false, value_parser)]
+    no_largeaddressaware: bool
 }
 
 /**
@@ -122,6 +138,17 @@ fn main() -> ExitCode {
      * PATCHES PATCHES PATCHES PATCHES
      */
 
+    // Large address aware patch
+    if !args.no_farclip {
+        const CHARACTERISTICS_OFFSET: usize = 0x126;
+        let mut characteristics = u16::from_le_bytes(file[CHARACTERISTICS_OFFSET..CHARACTERISTICS_OFFSET+2].try_into().expect("slice with incorrect length!"));
+        characteristics = characteristics | 0x20; // https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#characteristics
+        let characteristics_bytes = characteristics.to_le_bytes();
+        print!("Applying patch: make executable large address aware...");
+        file[CHARACTERISTICS_OFFSET..CHARACTERISTICS_OFFSET+characteristics_bytes.len()].copy_from_slice(&characteristics_bytes);
+        println!(" Success!");
+    }
+
     // Farclip patch
     if !args.no_farclip {
         const FARCLIP_OFFSET: usize = 0x40FED8;
@@ -156,6 +183,24 @@ fn main() -> ExitCode {
         print!("Applying patch: sound in background...");
         file[SOUND_IN_BACKGROUND_OFFSET..SOUND_IN_BACKGROUND_OFFSET+SOUND_IN_BACKGROUND_BYTES.len()].copy_from_slice(&SOUND_IN_BACKGROUND_BYTES);
         println!(" Success!");
+    }
+
+    // Sound channels patch
+    if !args.no_soundchannels {
+        const SOUNDCHANNEL_OFFSET: usize = 0x435d38;
+        let soundchannel_string = args.soundchannels.to_string();
+        print!("Applying patch: software sound channels default increase...");
+        let cstring = CString::new(soundchannel_string).expect("CString::new failed");
+        let soundchannel_bytes = cstring.to_bytes_with_nul();
+        if soundchannel_bytes.len() <= 4 {
+            file[SOUNDCHANNEL_OFFSET..SOUNDCHANNEL_OFFSET+soundchannel_bytes.len()].copy_from_slice(&soundchannel_bytes);
+            println!(" Success!");
+        }
+        else {
+            println!(" FAILED!");
+            println!("Sound channels value is too long.");
+            return ExitCode::from(1);
+        }
     }
 
     // Quickloot key reverse patch (hold shift to manual loot)
