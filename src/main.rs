@@ -205,35 +205,11 @@ fn main() -> ExitCode {
 
     // Quickloot key reverse patch (hold shift to manual loot)
     if !args.no_quickloot {
-        const QUICKLOOT_CONTAINER_OFFSET: usize = 0x1EDCAC;
-        const QUICKLOOT_CONTAINER_BYTES: [u8; 1] = [0x90];
-        const QUICKLOOT_WORLDOBJECT_OFFSET: usize = 0x1F869A;
-        const QUICKLOOT_WORLDOBJECT_BYTES: [u8; 1] = [0x94];
-        const QUICKLOOT_CORPSE_OFFSET: usize = 0x20BFDF;
-        const QUICKLOOT_CORPSE_BYTES: [u8; 1] = [0x94];
-        print!("Applying patch: quickloot reverse (container items)...");
-        file[QUICKLOOT_CONTAINER_OFFSET..QUICKLOOT_CONTAINER_OFFSET+QUICKLOOT_CONTAINER_BYTES.len()].copy_from_slice(&QUICKLOOT_CONTAINER_BYTES);
+        const QUICKLOOT_OFFSET: usize = 0x0C1ECF;
+        const QUICKLOOT_BYTES: [u8; 1] = [0x75];
+        print!("Applying patch: quickloot reverse...");
+        file[QUICKLOOT_OFFSET..QUICKLOOT_OFFSET+QUICKLOOT_BYTES.len()].copy_from_slice(&QUICKLOOT_BYTES);
         println!(" Success!");
-
-        print!("Applying patch: quickloot reverse (world objects)...");
-        file[QUICKLOOT_WORLDOBJECT_OFFSET..QUICKLOOT_WORLDOBJECT_OFFSET+QUICKLOOT_WORLDOBJECT_BYTES.len()].copy_from_slice(&QUICKLOOT_WORLDOBJECT_BYTES);
-        println!(" Success!");
-
-        print!("Applying patch: quickloot reverse (corpses)...");
-        file[QUICKLOOT_CORPSE_OFFSET..QUICKLOOT_CORPSE_OFFSET+QUICKLOOT_CORPSE_BYTES.len()].copy_from_slice(&QUICKLOOT_CORPSE_BYTES);
-        println!(" Success!");
-
-        //let quickloot_reverse_find_unkn: Vec::<u8> = vec![0x85, 0xd2, 0x0f, 0x95, 0xc0, 0x8b, 0xce, 0x50, 0xe8, 0xf3, 0x87, 0x00, 0x00, 0x8b, 0xce, 0xe8, 0x8c, 0x8c, 0x03, 0x00, 0x8b, 0xce, 0x50, 0x57, 0xe8, 0xb3, 0x84, 0x00, 0x00, 0x5f, 0x5e, 0x5d];
-        //let quickloot_reverse_repl_unkn: Vec::<u8> = vec![0x85, 0xd2, 0x0f, 0x94, 0xc0, 0x8b, 0xce, 0x50, 0xe8, 0xf3, 0x87, 0x00, 0x00, 0x8b, 0xce, 0xe8, 0x8c, 0x8c, 0x03, 0x00, 0x8b, 0xce, 0x50, 0x57, 0xe8, 0xb3, 0x84, 0x00, 0x00, 0x5f, 0x5e, 0x5d];
-        
-        // print!("Applying patch: quickloot reverse (unkn)...");
-        // match replace(&mut file, quickloot_reverse_find_unkn, quickloot_reverse_repl_unkn){
-        //     true => println!(" Success!"),
-        //     false => {
-        //         println!(" FAILED!");
-        //         return ExitCode::from(1);
-        //     }
-        // }
     }
 
     // Nameplate range change patch
