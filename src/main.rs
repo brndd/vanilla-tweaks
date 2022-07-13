@@ -23,14 +23,15 @@ The following patches are currently available and are all applied by default:
 - Farclip (terrain render distance) maximum value change
 - Frilldistance (grass render distance) change
 - Quickloot by default patch (hold shift for manual loot)
-- Nameplate range change")]
+- Nameplate range change
+- Large address aware patch")]
 struct Args {
     /// Path to WoW.exe.
     #[clap(value_parser)]
     infile: String,
 
     /// Filename of the output file.
-    #[clap(short, default_value_t = String::from("WoW_patched.exe"), value_parser)]
+    #[clap(short, default_value_t = String::from("WoW_tweaked.exe"), value_parser)]
     outfile: String,
 
     /// FoV value in radians. Default game value is 1.5708.
