@@ -140,7 +140,7 @@ fn main() -> ExitCode {
      */
 
     // Large address aware patch
-    if !args.no_farclip {
+    if !args.no_largeaddressaware {
         const CHARACTERISTICS_OFFSET: usize = 0x126;
         let mut characteristics = u16::from_le_bytes(file[CHARACTERISTICS_OFFSET..CHARACTERISTICS_OFFSET+2].try_into().expect("slice with incorrect length!"));
         characteristics = characteristics | 0x20; // https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#characteristics
