@@ -56,6 +56,11 @@ struct Args {
     #[clap(long, default_value_t = 128i32, value_parser = clap::value_parser!(i32).range(1..999))]
     soundchannels: i32,
 
+    /// Max camera distance LIMIT. Current max camera distance is a setting in the menu & a console command. Default game value is 50. Unchanged by default. Should be greater than 0, otherwise bad things may happen.
+    /// After patching, change with /console CameraDistanceMax 100
+    #[clap(long, value_parser)]
+    maxcameradistance: Option<f32>,
+
     /// If set, do not patch FoV.
     #[clap(long, default_value_t = false, value_parser)]
     no_fov: bool,
@@ -241,6 +246,15 @@ fn main() -> ExitCode {
         let nameplate_bytes: [u8; 4] = args.nameplatedistance.to_le_bytes();
         print!("Applying patch: nameplate range...");
         file[NAMEPLATE_OFFSET..NAMEPLATE_OFFSET+nameplate_bytes.len()].copy_from_slice(&nameplate_bytes);
+        println!(" Success!");
+    }
+
+    // Max camera distance patch
+    if let Some(maxcameradistance) = args.maxcameradistance {
+        const MAXCAMERADISTANCE_OFFSET: usize = 0x4089a4;
+        let maxcamera_bytes: [u8; 4] = maxcameradistance.to_le_bytes();
+        print!("Applying patch: max camera distance...");
+        file[MAXCAMERADISTANCE_OFFSET..MAXCAMERADISTANCE_OFFSET+maxcamera_bytes.len()].copy_from_slice(&maxcamera_bytes);
         println!(" Success!");
     }
 
