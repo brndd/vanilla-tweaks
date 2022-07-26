@@ -23,9 +23,12 @@ These are some custom patches for the old 1.12.1 World of Warcraft client, which
   - The default method works for corpses, world objects (chests, mining nodes, quest harvestables etc.) and container items (junkboxes, lockboxes etc.). It does not work for pickpocketing or disenchanting.
   - The alternative method, enabled with `--alternative-quickloot`, works with all types of looting, but has a bug where it will occasionally not quickloot by default.
   - See https://github.com/brndd/vanilla-tweaks/issues/2#issuecomment-1192159301 for implementation details if you want to help improve this.
-- **Nameplate range change.**
+- **Nameplate range change**
   - Increased to 41 yards to match the maximum value in Classic and TBC Classic. 20 yards is the default value.
-- **Large Address Aware patch.**
+- **CameraDistanceMax limit increase**
+  - Allows you to increase the CameraDistanceMax limit. This only changes the max value settable; the actual max camera distance can be changed with /console CameraDistanceMax <value>.
+  - Unchanged by default. Default maximum value is 50.
+- **Large Address Aware patch**
   - This allows the game to use more than 2GB of memory by setting a flag in the executable header. See https://codekabinett.com/rdumps.php?Lang=2&targetDoc=largeaddressaware-msaccess-exe for more information.
   - If you experience inexplicable crashes, try disabling this patch, and if you manage to reproduce them let me know via an issue. The client *should* have no issues being Large Address Aware, but you never know.
 
