@@ -81,11 +81,6 @@ struct Args {
     #[clap(long, default_value_t = false, value_parser)]
     no_quickloot: bool,
 
-    /// If set, use the alternative quickloot patch which works for all kinds of looting including pickpocketing,
-    /// but may randomly fail to quick loot on the first try.
-    #[clap(long, default_value_t = false, value_parser)]
-    alternative_quickloot: bool,
-
     /// If set, do not patch nameplate distance.
     #[clap(long, default_value_t = false, value_parser)]
     no_nameplatedistance: bool,
@@ -216,28 +211,14 @@ fn main() -> ExitCode {
 
     // Quickloot key reverse patch (hold shift to manual loot)
     if !args.no_quickloot {
-        //Alternative quickloot
-        if args.alternative_quickloot {
-            const QUICKLOOT_OFFSET: usize = 0x0C1ECF;
-            const QUICKLOOT_BYTES: [u8; 1] = [0x75];
-            print!("Applying patch: quickloot reverse (alternative)...");
-            file[QUICKLOOT_OFFSET..QUICKLOOT_OFFSET+QUICKLOOT_BYTES.len()].copy_from_slice(&QUICKLOOT_BYTES);
-            println!(" Success!");
-        }
-        else {
-            //This method involves more patching and doesn't work for pickpocketing, but works more reliably otherwise.
-            const QUICKLOOT_CONTAINER_OFFSET: usize = 0x1EDCAC;
-            const QUICKLOOT_CONTAINER_BYTES: [u8; 1] = [0x90];
-            const QUICKLOOT_WORLDOBJECT_OFFSET: usize = 0x1F869A;
-            const QUICKLOOT_WORLDOBJECT_BYTES: [u8; 1] = [0x94];
-            const QUICKLOOT_CORPSE_OFFSET: usize = 0x20BFDF;
-            const QUICKLOOT_CORPSE_BYTES: [u8; 1] = [0x94];
-            print!("Applying patch: quickloot reverse...");
-            file[QUICKLOOT_CONTAINER_OFFSET..QUICKLOOT_CONTAINER_OFFSET+QUICKLOOT_CONTAINER_BYTES.len()].copy_from_slice(&QUICKLOOT_CONTAINER_BYTES);
-            file[QUICKLOOT_WORLDOBJECT_OFFSET..QUICKLOOT_WORLDOBJECT_OFFSET+QUICKLOOT_WORLDOBJECT_BYTES.len()].copy_from_slice(&QUICKLOOT_WORLDOBJECT_BYTES);
-            file[QUICKLOOT_CORPSE_OFFSET..QUICKLOOT_CORPSE_OFFSET+QUICKLOOT_CORPSE_BYTES.len()].copy_from_slice(&QUICKLOOT_CORPSE_BYTES);
-            println!(" Success!");
-        }
+        const QUICKLOOT_OFFSET: usize = 0x0C1ECF;
+        const QUICKLOOT_BYTES: [u8; 1] = [0x75];
+        const QUICKLOOT_OFFSET2: usize = 0x0C2B25;
+        const QUICKLOOT_BYTES2: [u8; 1] = [0x75];
+        print!("Applying patch: quickloot reverse...");
+        file[QUICKLOOT_OFFSET..QUICKLOOT_OFFSET+QUICKLOOT_BYTES.len()].copy_from_slice(&QUICKLOOT_BYTES);
+        file[QUICKLOOT_OFFSET2..QUICKLOOT_OFFSET2+QUICKLOOT_BYTES2.len()].copy_from_slice(&QUICKLOOT_BYTES2);
+        println!(" Success!");
     }
 
     // Nameplate range change patch
