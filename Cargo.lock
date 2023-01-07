@@ -195,7 +195,7 @@ checksum = "5bd2fe26506023ed7b5e1e315add59d6f584c621d037f9368fea9cfb988f368c"
 
 [[package]]
 name = "vanilla-tweaks"
-version = "1.5.1"
+version = "1.5.2"
 dependencies = [
  "clap",
 ]
