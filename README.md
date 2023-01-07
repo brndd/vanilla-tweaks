@@ -10,9 +10,9 @@ These are some custom patches for the old 1.12.1 World of Warcraft client, which
 - **Sound in background patch**
 - **Sound channel count default increase**
   - By default the game only uses 12 channels to play sound. This is essentially the number of sounds that can play at the same time, so the low default value means many sound effects in group content do not play.
-  - Increased to 128 by default. The default in TBC is 32. The default in newer expansions is 64.
-  - This can also be set with `/console SoundSoftwareChannels 128`, but this patcher changes the default value so that it survives Config.wtf deletions.
-  - If you run into performance problems in group content where many sounds are playing, try decreasing this to 64. With modern hardware this is unlikely to be an issue though.
+  - Increased to 64 by default. The default in TBC is 32. The default in newer expansions is 64. 
+  - This can also be set with `/console SoundSoftwareChannels 64`, but this patcher changes the default value so that it survives Config.wtf deletions.
+  - Values above 64 have been reported to cause crashes. If you run into performance issues, try decreasing this setting further.
 - **Farclip (max render distance) increase**
   - Farclip is changed with `/console farclip 1000` (777 is the default maximum)
   - This patch allows up to 10000, but this may cause crashes. Enabling the Large Address Aware patch (enabled by default) may help reduce crashing.
