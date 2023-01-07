@@ -50,10 +50,10 @@ struct Args {
     #[clap(long, default_value_t = 41f32, value_parser)]
     nameplatedistance: f32,
 
-    /// Default sound channel count. This can also be set with /console SoundSoftwareChannels 128, but is included here so that the changes persist if Config.wtf is deleted.
+    /// Default sound channel count. This can also be set with /console SoundSoftwareChannels 64, but is included here so that the changes persist if Config.wtf is deleted.
     /// Default game value is 12. Default value in TBC is 32(?). Default value in modern client is 64. 999 is the maximum value settable here.
-    /// If you experience problems with performance, try changing this to 64.
-    #[clap(long, default_value_t = 128i32, value_parser = clap::value_parser!(i32).range(1..999))]
+    /// If you experience problems with performance, try lowering this. Values above 64 may cause crashes.
+    #[clap(long, default_value_t = 64i32, value_parser = clap::value_parser!(i32).range(1..999))]
     soundchannels: i32,
 
     /// Max camera distance LIMIT. Current max camera distance is a setting in the menu & a console command. Default game value is 50. Unchanged by default. Should be greater than 0, otherwise bad things may happen.
