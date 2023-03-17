@@ -31,7 +31,21 @@ These are some custom patches for the old 1.12.1 World of Warcraft client, which
   - If you experience inexplicable crashes, try disabling this patch, and if you manage to reproduce them let me know via an issue. The client *should* have no issues being Large Address Aware, but you never know.
 
 ## Usage
+Download this tool from [Releases](https://github.com/brndd/vanilla-tweaks/releases) that matches your operating system. Extract the vanilla-tweaks executable to your WoW directory, and:
 
-Pass the path to WoW.exe as a parameter (most easily done by dragging WoW.exe on top of the patcher in Windows Explorer). The patcher creates WoW_tweaked.exe next to the original binary. Run the game from that exe (or replace the original exe with it, I don't care).
+### Simple Method: Apply the Default Configuration
+With your file browser, drag your WoW.exe ontop of the Vanilla-Tweaks executable. WoW_tweaked.exe will be made, and you should use this new exe from now on. If you prefer, it is okay to rename/backup your original WoW.exe to something/somewhere else, and rename this new tweaked .exe to be WoW.exe.
 
-There are command-line options available to customize the values of and disable any tweaks you don't want. Run the program with the `--help` parameter to get a list of them.
+### Advanced Method: Customize with the Command Line
+With your terminal changed to the directory of your wow folder, pass the WoW.exe to modify as the final paramater to vanilla-tweaks. Add parameters to disable and reconfig tweaks to your desire, and any omitted parameters will use the defaults. For example:
+
+Windows:
+```
+vanilla-tweaks.exe --no-sound-in-background --nameplatedistance 36 WoW.exe
+```
+Mac/Linux:
+```sh
+./vanilla-tweaks --no-sound-in-background --nameplatedistance 36 WoW.exe
+```
+
+Use ```--help``` for more info on the available parameters.
