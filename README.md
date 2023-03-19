@@ -32,6 +32,28 @@ These are some custom patches for the old 1.12.1 World of Warcraft client, which
 
 ## Usage
 
-Pass the path to WoW.exe as a parameter (most easily done by dragging WoW.exe on top of the patcher in Windows Explorer). The patcher creates WoW_tweaked.exe next to the original binary. Run the game from that exe (or replace the original exe with it, I don't care).
+Download the release matching your operating system from the [releases page](https://github.com/brndd/vanilla-tweaks/releases). Extract the executable from the archive into your WoW directory.
 
-There are command-line options available to customize the values of and disable any tweaks you don't want. Run the program with the `--help` parameter to get a list of them.
+### Simple usage (Windows)
+
+Open your WoW directory and drag WoW.exe on top of vanilla_tweaks.exe. This will create a new file called WoW_tweaked.exe, which has all the patches applied with their default settings. You should then start the game from WoW_tweaked.exe instead. You may also rename your original WoW.exe to something else and then rename WoW_tweaked.exe to WoW.exe if you prefer. However, do note that this may cause issues if the server you are playing on uses the game's update system to update the game.
+
+### Customizing the settings
+
+To customize the values changed by the patches, or to disable some patches, you must run vanilla-tweaks from the command line.
+
+First, open a command prompt and navigate to your WoW directory. The easiest way to do this on Windows is to click File -> Open Windows PowerShell. On Mac, you can control-click the folder in the path bar and select Open in Terminal. On Linux, you can probably right-click on an empty space in the directory and open a terminal from there, but as a Linux user you probably know how to use the `cd` command anyway.
+
+With your terminal open in your WoW directory, you may then run vanilla-tweaks with custom parameters like this:
+
+```sh
+./vanilla-tweaks --no-sound-in-background --nameplatedistance 60 WoW.exe
+```
+
+The example here disables the sound in background patch and sets nameplate distance to 60 feet rather than 40.
+
+To see a full list of the available options, you may use the `--help` parameter:
+
+```sh
+./vanilla-tweaks --help
+```
