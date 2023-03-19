@@ -31,21 +31,29 @@ These are some custom patches for the old 1.12.1 World of Warcraft client, which
   - If you experience inexplicable crashes, try disabling this patch, and if you manage to reproduce them let me know via an issue. The client *should* have no issues being Large Address Aware, but you never know.
 
 ## Usage
-Download this tool from [Releases](https://github.com/brndd/vanilla-tweaks/releases) that matches your operating system. Extract the vanilla-tweaks executable to your WoW directory, and:
 
-### Simple Method: Apply the Default Configuration
-With your file browser, drag your WoW.exe ontop of the Vanilla-Tweaks executable. WoW_tweaked.exe will be made, and you should use this new exe from now on. If you prefer, it is okay to rename/backup your original WoW.exe to something/somewhere else, and rename this new tweaked .exe to be WoW.exe.
+Download the release matching your operating system from the [releases page](https://github.com/brndd/vanilla-tweaks/releases). Extract the executable from the archive into your WoW directory.
 
-### Advanced Method: Customize with the Command Line
-With your terminal changed to the directory of your wow folder, pass the WoW.exe to modify as the final paramater to vanilla-tweaks. Add parameters to disable and reconfig tweaks to your desire, and any omitted parameters will use the defaults. For example:
+### Simple usage (Windows)
 
-Windows:
-```
-vanilla-tweaks.exe --no-sound-in-background --nameplatedistance 36 WoW.exe
-```
-Mac/Linux:
+Open your WoW directory and drag WoW.exe on top of vanilla_tweaks.exe. This will create a new file called WoW_tweaked.exe, which has all the patches applied with their default settings. You should then start the game from WoW_tweaked.exe instead. You may also rename your original WoW.exe to something else and then rename WoW_tweaked.exe to WoW.exe if you prefer. However, do note that this may cause issues if the server you are playing on uses the game's update system to update the game.
+
+### Customizing the settings
+
+To customize the values changed by the patches, or to disable some patches, you must run vanilla-tweaks from the command line.
+
+First, open a command prompt and navigate to your WoW directory. The easiest way to do this on Windows is to click File -> Open Windows PowerShell. On Mac, you can control-click the folder in the path bar and select Open in Terminal. On Linux, you can probably right-click on an empty space in the directory and open a terminal from there, but as a Linux user you probably know how to use the `cd` command anyway.
+
+With your terminal open in your WoW directory, you may then run vanilla-tweaks with custom parameters like this:
+
 ```sh
-./vanilla-tweaks --no-sound-in-background --nameplatedistance 36 WoW.exe
+./vanilla-tweaks --no-sound-in-background --nameplatedistance 60 WoW.exe
 ```
 
-Use ```--help``` for more info on the available parameters.
+The example here disables the sound in background patch and sets nameplate distance to 60 feet rather than 40.
+
+To see a full list of the available options, you may use the `--help` parameter:
+
+```sh
+./vanilla-tweaks --help
+```
