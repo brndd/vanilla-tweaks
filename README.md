@@ -57,3 +57,29 @@ To see a full list of the available options, you may use the `--help` parameter:
 ```sh
 ./vanilla-tweaks --help
 ```
+
+## Launch scripts
+
+(Pull requests to add scripts for other platforms here are welcome!)
+
+### Linux/Lutris
+
+Here is an example Lutris launch script that clears the game's cache folder and regenerates the patched executable if WoW.exe has changed since the last time the patches were applied (e.g. the server shipped an update to the game files).
+
+Make sure to modify the game path to match your installation. You can then enable the script by setting it in Lutris via Configure > System Options > Pre-launch script (make sure "Wait for pre-launch script completion" is active).
+
+```bash
+#!/bin/bash
+
+cd /media/ssd0/games/turtle-wow/drive_c/turtle_client_116/
+#Clear cache
+rm -f /media/ssd0/games/turtle-wow/drive_c/turtle_client_116/WDB/*
+
+#Check hash of WoW.exe to see if it has changed
+if ! sha256sum --status --check WoW.exe.sha256; then
+    echo "WoW.exe has changed, updating WoW.exe.sha256 and WoW_tweaked.exe"
+    sha256sum WoW.exe > WoW.exe.sha256
+    ./vanilla-tweaks WoW.exe
+fi
+```
+
