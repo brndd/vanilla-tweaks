@@ -98,7 +98,7 @@ struct Args {
     #[clap(long, default_value_t = false, value_parser)]
     no_largeaddressaware: bool,
 
-    // If set, do not patch the fix for the camera sometimes skipping to a random direction when rotated.
+    /// If set, do not patch the fix for the camera sometimes skipping to a random direction when rotated.
     #[clap(long, default_value_t = false, value_parser)]
     no_cameraskipfix: bool
 }
