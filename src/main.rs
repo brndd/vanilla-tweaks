@@ -16,7 +16,7 @@ use clap::Parser;
 #[clap(about = "Applies patches to enhance the functionality of the 1.12.1 World of Warcraft client")]
 #[clap(long_about = "Applies patches to enhance the functionality of the 1.12.1 World of Warcraft client.
 
-The following patches are currently available and are all applied by default:
+The following patches are currently enabled by default:
 - Widescreen FoV fix
 - Sound in background patch
 - Sound channel count increase
@@ -25,7 +25,10 @@ The following patches are currently available and are all applied by default:
 - Quickloot by default patch (hold shift for manual loot)
 - Nameplate range change
 - Large address aware patch
-- Camera rotation skip glitch fix")]
+- Camera rotation skip glitch fix
+
+The following patches are disabled by default, and can be enabled with command line parameters:
+- Maximum camera distance limit increase")]
 struct Args {
     /// Path to WoW.exe.
     #[clap(value_parser)]
