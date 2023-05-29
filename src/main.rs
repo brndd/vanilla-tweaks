@@ -262,7 +262,7 @@ fn main() -> ExitCode {
                             0x15, 0x44, 0x4e, 0x88, 0x00, 0xe9, 0x35, 0x75, 0xcd, 0xff])
         ];
 
-        print!("Applying patch: camera skip fix...");
+        print!("Applying patch: camera skip glitch fix...");
         for (address, bytes) in patches.iter() {
             file[*address..*address+bytes.len()].copy_from_slice(&bytes);
         }
