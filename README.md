@@ -29,6 +29,8 @@ These are some custom patches for the old 1.12.1 World of Warcraft client, which
 - **Large Address Aware patch**
   - This allows the game to use more than 2GB of memory by setting a flag in the executable header. See https://codekabinett.com/rdumps.php?Lang=2&targetDoc=largeaddressaware-msaccess-exe for more information.
   - If you experience inexplicable crashes, try disabling this patch, and if you manage to reproduce them let me know via an issue. The client *should* have no issues being Large Address Aware, but you never know.
+- **Camera skip glitch fix**
+  - Fixes the glitch where the camera sometimes skips to face a random direction when rotated.
 
 ## Usage
 
