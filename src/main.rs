@@ -24,7 +24,8 @@ The following patches are currently available and are all applied by default:
 - Frilldistance (grass render distance) change
 - Quickloot by default patch (hold shift for manual loot)
 - Nameplate range change
-- Large address aware patch")]
+- Large address aware patch
+- Camera rotation skip glitch fix")]
 struct Args {
     /// Path to WoW.exe.
     #[clap(value_parser)]
@@ -92,7 +93,11 @@ struct Args {
     /// If set, do not patch the executable to be Large Address Aware.
     /// You may want to enable this if playing on incredibly low-end hardware with less than 3 GiB RAM.
     #[clap(long, default_value_t = false, value_parser)]
-    no_largeaddressaware: bool
+    no_largeaddressaware: bool,
+
+    // If set, do not patch the fix for the camera sometimes skipping to a random direction when rotated.
+    #[clap(long, default_value_t = false, value_parser)]
+    no_cameraskipfix: bool
 }
 
 /**
@@ -236,6 +241,31 @@ fn main() -> ExitCode {
         let maxcamera_bytes: [u8; 4] = maxcameradistance.to_le_bytes();
         print!("Applying patch: max camera distance...");
         file[MAXCAMERADISTANCE_OFFSET..MAXCAMERADISTANCE_OFFSET+maxcamera_bytes.len()].copy_from_slice(&maxcamera_bytes);
+        println!(" Success!");
+    }
+
+    // Camera skip glitch fix.
+    // Thanks to Bon on the Turtle WoW Discord for implementing this patch, and phamd for submitting the PR to include it.
+    if !args.no_cameraskipfix {
+        let patches: [(usize, Vec<u8>); 5] = [
+            (0x02ccd0, vec![0x55, 0x8b, 0x05, 0x48, 0x4e, 0x88, 0x00, 0x8b, 0x0d, 0x44, 0x4e, 0x88, 0x00, 0xe9, 0x33, 0x90,
+                            0x32, 0x00, 0x83, 0xc0, 0x32, 0x83, 0xc1, 0x32, 0x3b, 0x0d, 0xa8, 0xeb, 0xc4, 0x00, 0x7e, 0x03,
+                            0x83, 0xe9, 0x01, 0x3b, 0x05, 0xac, 0xeb, 0xc4, 0x00, 0x7e, 0x03, 0x83, 0xe8, 0x01, 0x83, 0xe9,
+                            0x32, 0x83, 0xe8, 0x32, 0x89, 0x05, 0x48, 0x4e, 0x88, 0x00, 0x89, 0x0d, 0x44, 0x4e, 0x88, 0x00,
+                            0x5d, 0xeb, 0x0d]),
+            (0x02d326, vec![0xe9, 0xb1, 0x8a, 0x32, 0x00]),
+            (0x02d334, vec![0x8b, 0x35, 0x48, 0x4e, 0x88, 0x00]),
+            (0x355d15, vec![                              0x83, 0xf8, 0x32, 0x7d, 0x03, 0x83, 0xc0, 0x01, 0x83, 0xf9, 0x32,
+                            0x7d, 0x03, 0x83, 0xc1, 0x01, 0xe9, 0xb8, 0x6f, 0xcd, 0xff]),
+            (0x355ddc, vec![                                                                        0x8d, 0x4d, 0xf0, 0x51,
+                            0xff, 0x35, 0x00, 0x4e, 0x88, 0x00, 0xff, 0x15, 0x50, 0xf6, 0x7f, 0x00, 0x8b, 0x45, 0xf0, 0x8b,
+                            0x15, 0x44, 0x4e, 0x88, 0x00, 0xe9, 0x35, 0x75, 0xcd, 0xff])
+        ];
+
+        print!("Applying patch: camera skip fix...");
+        for (address, bytes) in patches.iter() {
+            file[*address..*address+bytes.len()].copy_from_slice(&bytes);
+        }
         println!(" Success!");
     }
 
